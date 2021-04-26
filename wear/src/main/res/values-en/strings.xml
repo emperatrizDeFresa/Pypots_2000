@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Pypots 2000</string>
+    <string name="my_analog_name">Pypots 2000</string>
+
+    <string name="cbNumeroNotificaciones">Show number in the notification indicator</string>
+    <string name="cbNotificacionesNoLeidas">Show only unread notifications</string>
+    <string name="cbPasos">Show steps</string>
+    <string name="textView">In order to be able to show you the phone\'s battery level and to calculate sun positions you have to have the app installed in your phone</string>
+
+    <string name="reloj">WATCH</string>
+    <string name="pasos">STEPS</string>
+    <string name="movil">PHONE</string>
+</resources>
