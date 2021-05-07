@@ -14,9 +14,10 @@
 
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
-            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar"
+
             android:fitsSystemWindows="true"
             android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

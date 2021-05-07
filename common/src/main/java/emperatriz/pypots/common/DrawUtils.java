@@ -124,6 +124,110 @@ public class DrawUtils {
 
     }
 
+    public static void drawSecondsContinuous(int color, int second,long millisecond, Bitmap halo){
+        RectF r1 = new RectF();
+
+        paint.setStrokeWidth(Sys.size(44, width));
+        paint.setAntiAlias(true);
+        paint.setStrokeCap(Paint.Cap.BUTT);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setFilterBitmap(true);
+        r1.set(Sys.size(23, width)+offsetX,Sys.size(23, width)+offsetY,width-Sys.size(23, width)+offsetX,height-Sys.size(23, width)+offsetY);
+        paint.setShadowLayer(0, 0, 0, 0x00000000);
+
+
+
+        int animationMs = 100;
+
+
+        float[] hsv = new float[3];
+        float[] hsv2 = new float[3];
+        float[] hsv3 = new float[3];
+
+        Color.colorToHSV(color, hsv);
+        Color.colorToHSV(color, hsv2);
+        Color.colorToHSV(color, hsv3);
+
+
+        long ms = millisecond%1000;
+
+        hsv[2] *= 0.45f;
+
+
+        if (ms<=animationMs){
+            hsv2[2] *= (0.15+((ms*0.85f)/animationMs));
+        }
+        else{
+            hsv2[2] *= 1f;
+        }
+
+        if (ms<=(1000-animationMs)){
+            hsv3[2] *= 1f;
+        }
+        else{
+            hsv3[2] *= (1-(((ms-(1000-animationMs))*0.85f)/animationMs));
+        }
+
+
+
+
+        int colorDark = Color.HSVToColor(hsv);
+        int colorEnd = Color.HSVToColor(hsv2);
+        int colorStart = Color.HSVToColor(hsv3);
+
+        if (isInAmbientMode){
+
+            paint.setColor(0xff262626);
+            for (int i=0;i<=59;i++){
+                canvas.drawArc(r1, i*6-90+1, 4, false, paint);
+            }
+        }
+        else{
+            for (int i=0;i<=59;i++){
+
+                int add = i%3==0?0:0;
+
+                float millis = millisecond % 2001;
+                int md = (int)Math.floor((millis / 2000l)*(62));
+                int md2 = md+90%60;
+
+                if (second==i){
+                    paint.setColor(colorEnd);
+                }
+                else if (second==(i+1)%60){
+                    paint.setColor(color);
+                }else if (second==(i+2)%60){
+                        paint.setColor(colorStart);
+                }
+                else if ((second+md)%60==i){
+                    paint.setColor(colorDark);
+                }
+                else if ((second+md-1)%60==i){
+                    paint.setColor(colorDark);
+                }
+                else if ((second+md-2)%60==i){
+                    paint.setColor(colorDark);
+                }
+                else if ((second+md+30)%60==i){
+                    paint.setColor(colorDark);
+                }
+                else if ((second+md+29)%60==i){
+                    paint.setColor(colorDark);
+                }
+                else if ((second+md+28)%60==i){
+                    paint.setColor(colorDark);
+                }
+                else {
+                    paint.setColor(0xff262626);
+                }
+                canvas.drawArc(r1, i*6-90+1, 4, false, paint);
+            }
+        }
+
+        canvas.drawBitmap(halo, 0+offsetX, 0+offsetY, paint);
+
+    }
+
     public static void drawSeconds2(int color, int second,long millisecond, Bitmap halo){
         RectF r1 = new RectF();
 
@@ -173,6 +277,65 @@ public class DrawUtils {
         }
 
         canvas.drawBitmap(halo, 0+offsetX, 0+offsetY, paint);
+
+    }
+
+    public static void drawSecondsSpin(int color, float chunk, long millis, Bitmap halo){
+
+            RectF r1 = new RectF();
+
+            paint.setStrokeWidth(Sys.size(46, width));
+            paint.setAntiAlias(true);
+            paint.setStrokeCap(Paint.Cap.BUTT);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setFilterBitmap(false);
+            float margin = chunk*4;
+        r1.set(Sys.size(23, width)+offsetX,Sys.size(23, width)+offsetY,width-Sys.size(23, width)+offsetX,height-Sys.size(23, width)+offsetY);
+
+            millis = millis%60000;
+            float startAngle = (360f*millis/60000f)-90;
+
+            paint.setColor(Color.argb(255, Color.red(0), Color.green(0), Color.blue(0)));
+            canvas.drawArc(r1, startAngle-4, 5, false, paint);
+            paint.setColor(color);
+            canvas.drawArc(r1, startAngle - 3, 3, false, paint);
+
+        canvas.drawBitmap(halo, 0+offsetX, 0+offsetY, paint);
+
+    }
+
+    public static void drawSpin(int color, int speed, float widthStroke, float size, boolean clockwise, boolean alpha){
+
+
+            if (!alpha){
+                float[] hsv = new float[3];
+                Color.colorToHSV(color, hsv);
+                hsv[2] *= 0.274f; // value component
+                color= Color.HSVToColor(hsv);
+            }else{
+                color = Color.argb(70, Color.red(color), Color.green(color), Color.blue(color));
+            }
+
+            RectF r1 = new RectF();
+
+            paint.setStrokeWidth(Sys.size(15*widthStroke, width));
+            paint.setAntiAlias(true);
+            paint.setStrokeCap(Paint.Cap.BUTT);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setFilterBitmap(false);
+
+        r1.set(Sys.size(7.5f*widthStroke, width)+offsetX,Sys.size(7.5f*widthStroke, width)+offsetY,width-Sys.size(7.5f*widthStroke, width)+offsetX,height-Sys.size(7.5f*widthStroke, width)+offsetY);
+
+            paint.setShadowLayer(0, 0, 0, 0xff000000);
+
+            paint.setColor(color);
+            float millis = System.currentTimeMillis()%(speed*1000);
+            if (!clockwise){
+                millis=speed*1000-millis;
+            }
+            float startAngle = (360*millis/(speed*1000))-125;
+            canvas.drawArc(r1, startAngle, 360*size, false, paint);
+
 
     }
 
@@ -340,7 +503,7 @@ public class DrawUtils {
         paint2.setTextAlign(Paint.Align.LEFT);
         paint2.setAntiAlias(true);
         paint2.setTextSize(p20(0.93f));
-        canvas.drawTextOnPath(time1, circle, Sys.size(503, width), Sys.size(6, width), paint2);
+        canvas.drawTextOnPath(time1, circle, Sys.size(506, width), Sys.size(6, width), paint2);
         paint2.setTextAlign(Paint.Align.RIGHT);
         canvas.drawTextOnPath(time3, circle, Sys.size(-54, width), Sys.size(6, width), paint2);
         paint2.setTextAlign(Paint.Align.CENTER);
@@ -461,7 +624,7 @@ public class DrawUtils {
 
     public static void drawDate(Calendar now, Typeface font2){
 
-        SimpleDateFormat dia = new SimpleDateFormat("dd");
+        SimpleDateFormat dia = new SimpleDateFormat("d");
         SimpleDateFormat diaNombre = new SimpleDateFormat("EE");
         SimpleDateFormat mes = new SimpleDateFormat("MMM");
 
@@ -556,19 +719,20 @@ public class DrawUtils {
         canvas.drawRect(Sys.size(223,width)+offsetX,Sys.size(223,width)+offsetY,Sys.size(231,width)+offsetX,Sys.size(231,width)+offsetY, p2);
         canvas.drawRect(Sys.size(223,width)+offsetX, Sys.size(250,width)+offsetY, Sys.size(231,width)+offsetX,Sys.size(258,width)+offsetY, p2);
 
-        if (isTopSticky(hh)){
-            canvas.drawRect(Sys.size(127f,width)+offsetX,Sys.size(196f,width)+offsetY,Sys.size(159f,width)+offsetX,Sys.size(204f,width)+offsetY, p2);
+        if (width==454){
+            if (isTopSticky(hh)){
+                canvas.drawRect(Sys.size(127f,width)+offsetX,Sys.size(196f,width)+offsetY,Sys.size(159f,width)+offsetX,Sys.size(204f,width)+offsetY, p2);
+            }
+            if (isBottomSticky(hh)){
+                canvas.drawRect(Sys.size(127f,width)+offsetX,Sys.size(250f,width)+offsetY,Sys.size(159f,width)+offsetX,Sys.size(258f,width)+offsetY, p2);
+            }
+            if (isTopSticky(mm)){
+                canvas.drawRect(Sys.size(295f,width)+offsetX,Sys.size(196f,width)+offsetY,Sys.size(327f,width)+offsetX,Sys.size(204f,width)+offsetY, p2);
+            }
+            if (isBottomSticky(mm)){
+                canvas.drawRect(Sys.size(295f,width)+offsetX,Sys.size(250f,width)+offsetY,Sys.size(327f,width)+offsetX,Sys.size(258f,width)+offsetY, p2);
+            }
         }
-        if (isBottomSticky(hh)){
-            canvas.drawRect(Sys.size(127f,width)+offsetX,Sys.size(250f,width)+offsetY,Sys.size(159f,width)+offsetX,Sys.size(258f,width)+offsetY, p2);
-        }
-        if (isTopSticky(mm)){
-            canvas.drawRect(Sys.size(295f,width)+offsetX,Sys.size(196f,width)+offsetY,Sys.size(327f,width)+offsetX,Sys.size(204f,width)+offsetY, p2);
-        }
-        if (isBottomSticky(mm)){
-            canvas.drawRect(Sys.size(295f,width)+offsetX,Sys.size(250f,width)+offsetY,Sys.size(327f,width)+offsetX,Sys.size(258f,width)+offsetY, p2);
-        }
-
 
         canvas.drawBitmap(get(hh.substring(0,1),n0, n1, n2, n3, n4, n5, n6, n7, n8, n9), Sys.size(75f,width)+offsetX, Sys.size(196f,width)+offsetY, paint);
         canvas.drawBitmap(get(hh.substring(1),n0, n1, n2, n3, n4, n5, n6, n7, n8, n9),Sys.size(149f,width)+offsetX,Sys.size(196f,width)+offsetY, paint);

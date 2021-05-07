@@ -2,6 +2,7 @@ package emperatriz.pypots;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -59,6 +60,7 @@ import org.shredzone.commons.suncalc.SunTimes;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -320,6 +322,13 @@ public class MyWatchFace extends CanvasWatchFaceService implements
                         if (intent!=null){
                             startActivity(intent);
                         }
+
+//                        Intent startMain = new Intent(Intent.ACTION_MAIN);
+//                        startMain.addCategory(Intent.CATEGORY_HOME);
+//                        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(startMain);
+
+
                     }
                     Sys.save("lastTap",Calendar.getInstance().getTimeInMillis(),getApplicationContext());
 
@@ -397,10 +406,16 @@ public class MyWatchFace extends CanvasWatchFaceService implements
 
             DrawUtils.drawTime(sdf.format(mCalendar.getTime()),n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,p2);
             DrawUtils.drawSeconds(0xffffffff, mCalendar.get(Calendar.SECOND), mCalendar.get(Calendar.MILLISECOND), halo);
+
+//            DrawUtils.drawSpin(0xadffffff,7, 3, 0.55f, true, true);
+//            DrawUtils.drawSpin(0x99ffffff,9, 2, 0.40f, false, true);
+//            DrawUtils.drawSpin(0x67ffffff,13, 1, 0.60f, true, true);
+//            DrawUtils.drawSecondsSpin(0xffffffff, 45,mCalendar.getTimeInMillis(), halo );
+
             DrawUtils.drawDayTimes(0xffeeaa22, sdf.format(times.getRise()),sdf.format(times.getNoon()), sdf.format(times.getSet()), sdf.format(times.getNadir()),mCalendar, p2);
             DrawUtils.drawLeftComplication(0xffff4466, watchBattery,getResources().getString(R.string.reloj),watchBattery+"", p2);
             if (Sys.getBoolean(Sys.SETTINGS_PASOS,false, getApplicationContext())){
-                DrawUtils.drawRightComplication(0xff00bbee, steps-todaySteps,getResources().getString(R.string.pasos), (steps-todaySteps)+"", p2);
+                DrawUtils.drawRightComplication(0xff00bbee, Math.min(Math.round((steps-todaySteps)/100f),100),getResources().getString(R.string.pasos), (steps-todaySteps)+"", p2);
             }
             else{
                 DrawUtils.drawRightComplication(0xff00bbee, phoneBattery,getResources().getString(R.string.movil), phoneBattery+"", p2);
