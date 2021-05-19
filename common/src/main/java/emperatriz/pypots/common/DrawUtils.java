@@ -628,28 +628,6 @@ public class DrawUtils {
         SimpleDateFormat diaNombre = new SimpleDateFormat("EE");
         SimpleDateFormat mes = new SimpleDateFormat("MMM");
 
-//        String text2=diaNombre.format(now.getTime());
-//        String text1 = ""+mes.format(now.getTime())+"";
-//
-//        //Paint paint = paint2;
-//        paint.setTypeface(font2);
-//        paint.setStyle(Paint.Style.FILL);
-//        paint.setAntiAlias(false);
-//        paint.setTextSize(17);
-//        paint.setTextAlign(Paint.Align.LEFT);
-//
-//
-//        float textWidth1 = paint.measureText(text1);
-//        paint.setTextSize(10.4f);
-//        float textWidth2 = paint.measureText(text2);
-//
-//        paint.setColor(0xff999999);
-//
-//        paint.setTextSize(17);
-//        canvas.drawText(text1, width / 2 - textWidth1 / 2, 161, paint);
-//        paint.setTextSize(10.4f);
-//        canvas.drawText(text2, width / 2 - textWidth2 / 2, 143, paint);
-
 
 
         float margin=p20(0.25f);
@@ -670,9 +648,30 @@ public class DrawUtils {
         p.setColor(0xff999999);
         float textWidth2 = p.measureText(diaNombre.format(now.getTime()).replace(".",""));
         float textWidth3 = p.measureText(mes.format(now.getTime()).replace(".",""));
-        canvas.drawText(diaNombre.format(now.getTime()).replace(".",""),(width/2-Math.round(textWidth/2))-(textWidth2+1)-margin+offsetX,Sys.size(168, width)+offsetY,p);
-        canvas.drawText(mes.format(now.getTime()).replace(".",""),(width/2+Math.round(textWidth/2))+margin+offsetX,Sys.size(168, width)+offsetY,p);
 
+
+
+        canvas.drawText(diaNombre.format(now.getTime()).replace(".",""),(width/2-Math.round(textWidth/2))-(textWidth2+1)-margin+offsetX+1,Sys.size(168, width)+offsetY,p);
+        canvas.drawText(mes.format(now.getTime()).replace(".",""),(width/2+Math.round(textWidth/2))+margin+offsetX-1,Sys.size(168, width)+offsetY,p);
+
+        if (width==454){
+            Paint p4 = new Paint();
+
+            float right = (width/2+Math.round(textWidth/2))+margin+offsetX-1;
+            float left = (width/2-Math.round(textWidth/2))-(1)-margin+offsetX+1;
+
+
+            p4.setColor(0x3f000000);
+            canvas.drawRect(right,145+offsetY, right+3, 170+offsetY, p4);
+            canvas.drawRect(left,145+offsetY, left-3, 170+offsetY, p4);
+            p4.setColor(0x2f000000);
+            canvas.drawRect(right+3,145+offsetY, right+5, 170+offsetY, p4);
+            canvas.drawRect(left-3,145+offsetY, left-5, 170+offsetY, p4);
+            p4.setColor(0x1f000000);
+            canvas.drawRect(right+5,145+offsetY, right+7, 170+offsetY, p4);
+            canvas.drawRect(left-5,145+offsetY, left-7, 170+offsetY, p4);
+
+        }
 
     }
 
