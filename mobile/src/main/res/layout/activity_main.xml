@@ -17,16 +17,16 @@
         android:elevation="8dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="30dp">
+        android:paddingTop="20dp">
 
-        <ImageView
-            android:layout_marginTop="20dp"
-            android:id="@+id/py"
-            android:layout_width="220dp"
-            android:layout_height="50dp"
-            android:src="@drawable/titulo"
+<!--        <ImageView-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:id="@+id/py"-->
+<!--            android:layout_width="220dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:src="@drawable/titulo"-->
 
-            />
+<!--            />-->
 
         <emperatriz.pypots.CanvasView
             android:id="@+id/canvasView"
@@ -50,7 +50,10 @@
                 android:id="@+id/cbNumeroNotificaciones"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:padding="10dp"
                 android:text="@string/cbNumeroNotificaciones"
                 android:textSize="14dp" />
@@ -59,28 +62,77 @@
                 android:id="@+id/cbNotificacionesNoLeidas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="5dp"
                 android:padding="10dp"
                 android:text="@string/cbNotificacionesNoLeidas"
                 android:textSize="14dp" />
 
+<!--            <CheckBox-->
+<!--                android:id="@+id/cbPasos"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="12dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:padding="10dp"-->
+<!--                android:text="@string/cbPasos"-->
+<!--                android:textSize="14dp" />-->
+
             <CheckBox
-                android:id="@+id/cbPasos"
+                android:id="@+id/cbTorch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="5dp"
                 android:padding="10dp"
-                android:text="@string/cbPasos"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                android:text="@string/cbTorch" />
+
+            <CheckBox
+                android:id="@+id/cbDND"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:padding="10dp"
+                android:textSize="14dp"
+                android:text="@string/cbDND" />
+
+                        <TextView
+                            android:id="@+id/divisionesTxt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="5dp"
+                            android:textColor="#000000"
+                            android:gravity="center"
+                            android:text="@string/partes" />
+
+                        <Spinner
+                            android:id="@+id/divisiones"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="5dp"
+                            android:entries="@array/ceroseis" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="15dp"
                 android:layout_marginTop="5dp"
                 android:padding="10dp"
                 android:text="@string/textview"

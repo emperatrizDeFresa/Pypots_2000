@@ -8,12 +8,16 @@ public class Sys {
     private static String PYPOTS="pypots2000";
     public static final String BATTERY_KEY = "/phone_battery";
     public static final String LOCATION_KEY = "/location";
+    public static final String DND_KEY = "/dnd";
     public static final String SETINGS_KEY = "/wear_settings";
     public static final String SETINGS_UP_KEY = "/wear_settingsUp";
 
     public static final String SETTINGS_NUMERO_NOTIFICACIONES="numNot";
     public static final String SETTINGS_NOTIFICACIONES_NO_LEIDAS="noLeidaNot";
     public static final String SETTINGS_PASOS="pasos";
+    public static final String SETTINGS_TORCH="torch";
+    public static final String SETTINGS_DND="dnd";
+    public static final String SETTINGS_DIVISIONES="divisiones";
 
     public static int POLLING_INTERVAL=10;
     public static int LOCATION_INTERVAL=60*6;
@@ -78,8 +82,13 @@ public class Sys {
     }
 
     public static boolean getBoolean(String key, boolean defValue, Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(PYPOTS, context.MODE_PRIVATE);
-        return preferences.getBoolean(key, false);
+        try{
+            SharedPreferences preferences = context.getSharedPreferences(PYPOTS, context.MODE_PRIVATE);
+            return preferences.getBoolean(key, false);
+        }catch (Exception ex){
+            return false;
+        }
+
     }
 
 }

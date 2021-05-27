@@ -1,8 +1,7 @@
 package emperatriz.pypots;
 
-import android.Manifest;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -11,70 +10,47 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.location.Location;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import androidx.annotation.Dimension;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.DrawableUtils;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
 
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
-import android.text.format.Time;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.SurfaceHolder;
-import android.widget.Toast;
 
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.android.gms.wearable.CapabilityClient;
-import com.google.android.gms.wearable.CapabilityInfo;
-import com.google.android.gms.wearable.DataClient;
-import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.MessageClient;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.Wearable;
-import com.google.android.gms.wearable.WearableListenerService;
 
-import org.shredzone.commons.suncalc.SunPosition;
 import org.shredzone.commons.suncalc.SunTimes;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 import emperatriz.pypots.common.DrawUtils;
 import emperatriz.pypots.common.Sys;
 
-import static com.google.android.gms.wearable.Wearable.MessageApi;
+import static emperatriz.pypots.common.DrawUtils.height;
 import static emperatriz.pypots.common.DrawUtils.width;
 
 /**
@@ -101,7 +77,7 @@ public class MyWatchFace extends CanvasWatchFaceService implements
      * Updates rate in milliseconds for interactive mode. We update once a second to advance the
      * second hand.
      */
-    private static final long INTERACTIVE_UPDATE_RATE_MS = 16;//TimeUnit.SECONDS.toMillis(1);
+    private static final long INTERACTIVE_UPDATE_RATE_MS = 1;//TimeUnit.SECONDS.toMillis(1);
 
     /**
      * Handler message id for updating the time periodically in interactive mode.
@@ -317,16 +293,30 @@ public class MyWatchFace extends CanvasWatchFaceService implements
 //                    Log.i("MCH Professional","Tap "+mTapCount+" "+x+","+y);
                     if (Calendar.getInstance().getTimeInMillis()-Sys.getLong("lastTap", 0,getApplicationContext())<200) {
 
-                        PackageManager pm = getPackageManager();
-                        Intent intent = pm.getLaunchIntentForPackage("com.google.android.clockwork.flashlight");
-                        if (intent!=null){
-                            startActivity(intent);
-                        }
+                        if ((x-width/2)*(x-width/2) + (y-height/2)*(y-height/2) < (width*0.33)*(width*0.33) ){
+
+
+                            if (Sys.getBoolean(Sys.SETTINGS_TORCH,false, getApplicationContext())){
+                                //Toast.makeText(getApplicationContext(),"dentro",Toast.LENGTH_SHORT).show();
+                                PackageManager pm = getPackageManager();
+                                Intent intent = pm.getLaunchIntentForPackage("com.google.android.clockwork.flashlight");
+                                if (intent!=null){
+                                    startActivity(intent);
+                                }
 
 //                        Intent startMain = new Intent(Intent.ACTION_MAIN);
 //                        startMain.addCategory(Intent.CATEGORY_HOME);
 //                        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                        startActivity(startMain);
+                            }
+
+                        }
+                        else{
+                            //Toast.makeText(getApplicationContext(),"fuera",Toast.LENGTH_SHORT).show();
+
+                        }
+
+
 
 
                     }
@@ -373,6 +363,15 @@ public class MyWatchFace extends CanvasWatchFaceService implements
                 halo = Bitmap.createScaledBitmap(halo,width,width, true);
             }
 
+            NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+            int status = nm.getCurrentInterruptionFilter();
+            if (status!=Sys.getInt("dndStatus",0, getApplicationContext())){
+                Sys.save("dndStatus", status, getApplicationContext());
+                if (Sys.getBoolean(Sys.SETTINGS_DND,false, getApplicationContext())) {
+                    syncDND();
+                }
+            }
+
             pollPhoneBattery(false);
             pollPhoneLocation(false);
 
@@ -405,8 +404,8 @@ public class MyWatchFace extends CanvasWatchFaceService implements
             }
 
             DrawUtils.drawTime(sdf.format(mCalendar.getTime()),n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,p2);
-            DrawUtils.drawSeconds(0xffffffff, mCalendar.get(Calendar.SECOND), mCalendar.get(Calendar.MILLISECOND), halo);
-
+            //DrawUtils.drawSeconds(0xffffffff, mCalendar.get(Calendar.SECOND), mCalendar.get(Calendar.MILLISECOND), halo);
+            DrawUtils.drawSecondsMulti(mCalendar.get(Calendar.SECOND), mCalendar.get(Calendar.MILLISECOND), Sys.getInt(Sys.SETTINGS_DIVISIONES,2,getApplicationContext()), halo);
 //            DrawUtils.drawSpin(0xadffffff,7, 3, 0.55f, true, true);
 //            DrawUtils.drawSpin(0x99ffffff,9, 2, 0.40f, false, true);
 //            DrawUtils.drawSpin(0x67ffffff,13, 1, 0.60f, true, true);
@@ -449,6 +448,18 @@ public class MyWatchFace extends CanvasWatchFaceService implements
                 Sys.save("nextLoc", (Calendar.getInstance().getTimeInMillis()+Sys.LOCATION_INTERVAL*60*1000)+"",getApplicationContext());
                 new SendMessage(Sys.LOCATION_KEY,"").start();
             }
+        }
+
+        private void syncDND() {
+            try{
+                NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+                int status = nm.getCurrentInterruptionFilter();
+                new SendMessage(Sys.DND_KEY,status+"").start();
+            }
+            catch (SecurityException se){
+
+            }
+
         }
 
 

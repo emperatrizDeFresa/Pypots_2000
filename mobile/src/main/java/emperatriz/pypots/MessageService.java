@@ -1,6 +1,7 @@
 package emperatriz.pypots;
 
 import android.Manifest;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -28,13 +29,28 @@ import java.util.concurrent.ExecutionException;
 import emperatriz.pypots.common.Sys;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS;
 
 public class MessageService extends WearableListenerService {
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
 
-        if (messageEvent.getPath().equals(Sys.BATTERY_KEY)) {
+        if (messageEvent.getPath().equals(Sys.DND_KEY)) {
+            final String message = new String(messageEvent.getData());
+
+
+            try{
+                    NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+                    nm.setInterruptionFilter(Integer.parseInt(message));
+                    new SendMessage(Sys.DND_KEY, "OK").start();
+            }
+            catch (SecurityException se){
+                new SendMessage(Sys.DND_KEY, "KO").start();
+                getApplicationContext().startActivity(new Intent(ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+            }
+        }
+        else if (messageEvent.getPath().equals(Sys.BATTERY_KEY)) {
             Intent batteryIntent = getApplicationContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
             int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
             int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);

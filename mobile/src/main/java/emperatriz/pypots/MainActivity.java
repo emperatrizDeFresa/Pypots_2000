@@ -11,6 +11,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -31,11 +32,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.QuickContactBadge;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +60,8 @@ import java.util.concurrent.ExecutionException;
 
 import emperatriz.pypots.common.Sys;
 
+import static android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS;
+
 public class MainActivity extends Activity {
 
 
@@ -76,15 +81,27 @@ public class MainActivity extends Activity {
     public void updateUI(){
         final CheckBox cbNumeroNotificaciones = (CheckBox) findViewById(R.id.cbNumeroNotificaciones);
         final CheckBox cbNotificacionesNoLeidas = (CheckBox) findViewById(R.id.cbNotificacionesNoLeidas);
-        final CheckBox cbPasos = (CheckBox) findViewById(R.id.cbPasos);
+        //final CheckBox cbPasos = (CheckBox) findViewById(R.id.cbPasos);
+        final CheckBox cbTorch = (CheckBox) findViewById(R.id.cbTorch);
+        final CheckBox cbDND = (CheckBox) findViewById(R.id.cbDND);
+        final Spinner divisiones = (Spinner) findViewById(R.id.divisiones);
+        final TextView divisionesTxt = (TextView) findViewById(R.id.divisionesTxt);
 
         cbNumeroNotificaciones.setChecked(Sys.getBoolean(Sys.SETTINGS_NUMERO_NOTIFICACIONES, false, MainActivity.this));
         cbNotificacionesNoLeidas.setChecked(Sys.getBoolean(Sys.SETTINGS_NOTIFICACIONES_NO_LEIDAS, false, MainActivity.this));
-        cbPasos.setChecked(Sys.getBoolean(Sys.SETTINGS_PASOS, false, MainActivity.this));
+        //cbPasos.setChecked(Sys.getBoolean(Sys.SETTINGS_PASOS, false, MainActivity.this));
+        cbTorch.setChecked(Sys.getBoolean(Sys.SETTINGS_TORCH, false, MainActivity.this));
+        cbDND.setChecked(Sys.getBoolean(Sys.SETTINGS_DND, false, MainActivity.this));
+        divisiones.setSelection(Sys.getInt(Sys.SETTINGS_DIVISIONES,2, MainActivity.this));
 
         cbNumeroNotificaciones.setEnabled(true);
         cbNotificacionesNoLeidas.setEnabled(true);
-        cbPasos.setEnabled(true);
+        //cbPasos.setEnabled(true);
+        cbTorch.setEnabled(true);
+        cbDND.setEnabled(true);
+        divisiones.setEnabled(true);
+        //divisionesTxt.setEnabled(true);
+        divisionesTxt.setTextColor(0xff000000);
 
         info.animate().translationY(info.getHeight()).alpha(0.f).setListener(new AnimatorListenerAdapter() {
             @Override
@@ -95,6 +112,8 @@ public class MainActivity extends Activity {
                 info.setTranslationY(0.f);
             }
         });
+
+
     }
 
 
@@ -124,11 +143,18 @@ public class MainActivity extends Activity {
 
         final CheckBox cbNumeroNotificaciones = (CheckBox) findViewById(R.id.cbNumeroNotificaciones);
         final CheckBox cbNotificacionesNoLeidas = (CheckBox) findViewById(R.id.cbNotificacionesNoLeidas);
-        final CheckBox cbPasos = (CheckBox) findViewById(R.id.cbPasos);
+        //final CheckBox cbPasos = (CheckBox) findViewById(R.id.cbPasos);
+        final CheckBox cbTorch = (CheckBox) findViewById(R.id.cbTorch);
+        final CheckBox cbDND = (CheckBox) findViewById(R.id.cbDND);
+        final Spinner divisiones = (Spinner) findViewById(R.id.divisiones);
+        final TextView divisionesTxt = (TextView) findViewById(R.id.divisionesTxt);
 
         cbNumeroNotificaciones.setChecked(Sys.getBoolean(Sys.SETTINGS_NUMERO_NOTIFICACIONES, false, MainActivity.this));
         cbNotificacionesNoLeidas.setChecked(Sys.getBoolean(Sys.SETTINGS_NOTIFICACIONES_NO_LEIDAS, false, MainActivity.this));
-        cbPasos.setChecked(Sys.getBoolean(Sys.SETTINGS_PASOS, false, MainActivity.this));
+        //cbPasos.setChecked(Sys.getBoolean(Sys.SETTINGS_PASOS, false, MainActivity.this));
+        cbTorch.setChecked(Sys.getBoolean(Sys.SETTINGS_TORCH, false, MainActivity.this));
+        cbDND.setChecked(Sys.getBoolean(Sys.SETTINGS_DND, false, MainActivity.this));
+        divisiones.setSelection(Sys.getInt(Sys.SETTINGS_DIVISIONES,2, MainActivity.this));
 
         cbNumeroNotificaciones.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -146,17 +172,53 @@ public class MainActivity extends Activity {
             }
         });
 
-        cbPasos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//        cbPasos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                Sys.save(Sys.SETTINGS_PASOS, isChecked, MainActivity.this);
+//                new SendMessage(Sys.SETINGS_UP_KEY, Sys.SETTINGS_PASOS+","+(isChecked?"1":"0")).start();
+//            }
+//        });
+
+        cbTorch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Sys.save(Sys.SETTINGS_PASOS, isChecked, MainActivity.this);
-                new SendMessage(Sys.SETINGS_UP_KEY, Sys.SETTINGS_PASOS+","+(isChecked?"1":"0")).start();
+                Sys.save(Sys.SETTINGS_TORCH, isChecked, MainActivity.this);
+                new SendMessage(Sys.SETINGS_UP_KEY, Sys.SETTINGS_TORCH+","+(isChecked?"1":"0")).start();
             }
         });
 
+        cbDND.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Sys.save(Sys.SETTINGS_DND, isChecked, MainActivity.this);
+                new SendMessage(Sys.SETINGS_UP_KEY, Sys.SETTINGS_DND+","+(isChecked?"1":"0")).start();
+            }
+        });
+
+        divisiones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                 @Override
+                                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                                     Sys.save(Sys.SETTINGS_DIVISIONES,position, MainActivity.this);
+                                                     new SendMessage(Sys.SETINGS_UP_KEY, Sys.SETTINGS_DIVISIONES+","+position).start();
+                                                 }
+
+                                                 @Override
+                                                 public void onNothingSelected(AdapterView<?> parent) {
+
+                                                 }
+                                             }
+
+        );
+
         cbNumeroNotificaciones.setEnabled(false);
         cbNotificacionesNoLeidas.setEnabled(false);
-        cbPasos.setEnabled(false);
+        //cbPasos.setEnabled(false);
+        cbTorch.setEnabled(false);
+        cbDND.setEnabled(false);
+        divisiones.setEnabled(false);
+        //divisionesTxt.setEnabled(false);
+        divisionesTxt.setTextColor(0x55000000);
 
         info = findViewById(R.id.info);
 
@@ -167,7 +229,12 @@ public class MainActivity extends Activity {
                 if (!updated){
                     cbNumeroNotificaciones.setEnabled(true);
                     cbNotificacionesNoLeidas.setEnabled(true);
-                    cbPasos.setEnabled(true);
+                    //cbPasos.setEnabled(true);
+                    cbTorch.setEnabled(true);
+                    cbDND.setEnabled(true);
+                    divisiones.setEnabled(true);
+                    //divisionesTxt.setEnabled(true);
+                    divisionesTxt.setTextColor(0xff000000);
                     info.setText(getResources().getString(R.string.no_reloj));
                     info.setBackgroundColor(0xffff3344);
                 }
@@ -184,6 +251,26 @@ public class MainActivity extends Activity {
                 cv.incrementNotification();
             }
         });
+
+        try{
+            NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+            int status = nm.getCurrentInterruptionFilter();
+            nm.setInterruptionFilter(status);
+        }
+        catch (SecurityException se){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getString(R.string.permiso));
+            builder.setPositiveButton(getString(R.string.permisoOk), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+                }
+            });
+            builder.setCancelable(true);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        }
     }
 
     @Override

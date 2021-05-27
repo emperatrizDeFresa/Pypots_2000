@@ -8,9 +8,25 @@
     <string name="cbNumeroNotificaciones">Mostrar número en indicador de notificaciones</string>
     <string name="cbNotificacionesNoLeidas">Mostrar solo las notificaciones no leidas en el indicador</string>
     <string name="cbPasos">Mostrar pasos</string>
+    <string name="cbTorch">Abrir linterna con doble click en el centro</string>
+    <string name="cbDND">Sincronizar estado de \"No molestar\" en reloj y móvil</string>
     <string name="textview">Para poder obtener el nivel de batería del móvil y calcular las posiciones del sol es necesario desactivar cualquier ahorro de batería en esta app</string>
+    <string name="partes">Número de divisiones de la animación</string>
+
+    <string name="permiso">Para poder sincronizar el estado de \"No molestar\" desde el reloj es necesario conceder permisos a la app</string>
+    <string name="permisoOk">Ir a los ajustes de sistema para conceder el permiso</string>
 
     <string name="reloj">RELOJ</string>
     <string name="pasos">PASOS</string>
     <string name="movil">MÓVIL</string>
+
+    <string-array name="ceroseis">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
 </resources>

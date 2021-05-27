@@ -1,5 +1,10 @@
 package emperatriz.pypots;
 
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.widget.Toast;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.gms.wearable.MessageEvent;
@@ -12,12 +17,16 @@ import java.util.concurrent.ExecutionException;
 
 import emperatriz.pypots.common.Sys;
 
+import static android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS;
+
 public class MessageService extends WearableListenerService {
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
-
-        if (messageEvent.getPath().equals(Sys.BATTERY_KEY)) {
+        if (messageEvent.getPath().equals(Sys.DND_KEY)) {
+            final String message = new String(messageEvent.getData());
+        }
+        else if (messageEvent.getPath().equals(Sys.BATTERY_KEY)) {
             final String message = new String(messageEvent.getData());
             int value = Integer.parseInt(message);
             Sys.save(Sys.BATTERY_KEY,value,this);

@@ -107,7 +107,7 @@ public class CanvasView  extends View {
         }
     };
 
-    public int notifications = 3;
+    public int notifications = 0;
 
 
     @Override
@@ -121,7 +121,8 @@ public class CanvasView  extends View {
         canvas.drawBitmap(swr,0,0,null);
         DrawUtils.drawTime(sdf.format(now.getTime()),n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,p2);
 
-        DrawUtils.drawSeconds(0xffffffff, now.get(Calendar.SECOND), now.get(Calendar.MILLISECOND), halo);
+        //DrawUtils.drawSeconds(0xffffffff, now.get(Calendar.SECOND), now.get(Calendar.MILLISECOND), halo);
+        DrawUtils.drawSecondsMulti(now.get(Calendar.SECOND), now.get(Calendar.MILLISECOND), Sys.getInt(Sys.SETTINGS_DIVISIONES,2,context), halo);
         DrawUtils.drawDayTimes(0xffeeaa22, "07:30","14:00", "21:30","03:00",now, p2);
         DrawUtils.drawLeftComplication(0xffff4466, 56,getResources().getString(R.string.reloj),"56", p2);
 
