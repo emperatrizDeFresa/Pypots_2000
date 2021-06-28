@@ -81,7 +81,13 @@ public class MessageService extends WearableListenerService {
         }else if (messageEvent.getPath().equals(Sys.SETINGS_KEY)) {
             final String message = new String(messageEvent.getData());
             for (String set : message.split("#")){
-                Sys.save(set.split(",")[0],set.split(",")[1].equals("1"),getApplicationContext());
+                if (set.split(",")[0].equals((Sys.SETTINGS_DIVISIONES))){
+                    Sys.save(set.split(",")[0],Integer.parseInt(set.split(",")[1]),getApplicationContext());
+                }
+                else{
+                    Sys.save(set.split(",")[0],set.split(",")[1].equals("1"),getApplicationContext());
+                }
+
             }
             Intent intent=new Intent();
             intent.setAction("emperatriz.updateUI");

@@ -10,6 +10,7 @@
     <string name="cbPasos">Show steps</string>
     <string name="cbTorch">Open torch by double tapping on the middle</string>
     <string name="cbDND">Sync DND status in watch and phone</string>
+    <string name="cbHalo">Depth at edge</string>
     <string name="textview">In order to be able to show you the phone\'s battery level and to calculate sun positions you have to disable any battery saving mode for this app</string>
     <string name="partes">Number of animation divisions</string>
 
@@ -25,8 +26,11 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
+        <item>0 thin</item>
+        <item>1 thin</item>
+        <item>2 thin</item>
+        <item>3 thin</item>
+        <item>Animated</item>
+        <item>Filled</item>
     </string-array>
 </resources>

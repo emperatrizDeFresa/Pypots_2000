@@ -18,6 +18,7 @@ public class Sys {
     public static final String SETTINGS_TORCH="torch";
     public static final String SETTINGS_DND="dnd";
     public static final String SETTINGS_DIVISIONES="divisiones";
+    public static final String SETTINGS_HALO="halo";
 
     public static int POLLING_INTERVAL=10;
     public static int LOCATION_INTERVAL=60*6;
@@ -84,7 +85,7 @@ public class Sys {
     public static boolean getBoolean(String key, boolean defValue, Context context) {
         try{
             SharedPreferences preferences = context.getSharedPreferences(PYPOTS, context.MODE_PRIVATE);
-            return preferences.getBoolean(key, false);
+            return preferences.getBoolean(key, defValue);
         }catch (Exception ex){
             return false;
         }

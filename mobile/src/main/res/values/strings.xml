@@ -10,6 +10,7 @@
     <string name="cbPasos">Mostrar pasos</string>
     <string name="cbTorch">Abrir linterna con doble click en el centro</string>
     <string name="cbDND">Sincronizar estado de \"No molestar\" en reloj y móvil</string>
+    <string name="cbHalo">Profundidad en el borde</string>
     <string name="textview">Para poder obtener el nivel de batería del móvil y calcular las posiciones del sol es necesario desactivar cualquier ahorro de batería en esta app</string>
     <string name="partes">Número de divisiones de la animación</string>
 
@@ -25,8 +26,11 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
+        <item>0 fino</item>
+        <item>1 fino</item>
+        <item>2 fino</item>
+        <item>3 fino</item>
+        <item>Animado</item>
+        <item>Relleno</item>
     </string-array>
 </resources>

@@ -46,7 +46,7 @@ public class DrawUtils {
 
 
 
-    public static void drawSeconds(int color, int second,long millisecond, Bitmap halo){
+    public static void drawSeconds(int color, int second,long millisecond){
         RectF r1 = new RectF();
 
         paint.setStrokeWidth(Sys.size(44, width));
@@ -122,11 +122,9 @@ public class DrawUtils {
             }
         }
 
-        canvas.drawBitmap(halo, 0+offsetX, 0+offsetY, paint);
-
     }
 
-    public static void drawSecondsMulti(int second, long millisecond, int divisions, Bitmap halo){
+    public static void drawSecondsMulti(int second, long millisecond, int divisions){
         RectF r1 = new RectF();
 
         paint.setStrokeWidth(Sys.size(44, width));
@@ -216,12 +214,102 @@ public class DrawUtils {
             }
 
         }
+    }
 
-        canvas.drawBitmap(halo, 0+offsetX, 0+offsetY, paint);
+    public static void drawSecondsThin(int second, long millisecond, int divisions){
+        RectF r1 = new RectF();
+
+        paint.setStrokeWidth(Sys.size(44, width));
+        paint.setAntiAlias(true);
+        paint.setStrokeCap(Paint.Cap.BUTT);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setFilterBitmap(true);
+        r1.set(Sys.size(23, width)+offsetX,Sys.size(23, width)+offsetY,width-Sys.size(23, width)+offsetX,height-Sys.size(23, width)+offsetY);
+        paint.setShadowLayer(0, 0, 0, 0x00000000);
+
+
+
+
+
+
+        float[] hsv = new float[3];
+        float[] hsv2 = new float[3];
+        float[] hsv3 = new float[3];
+        Color.colorToHSV(0xffffffff, hsv);
+        Color.colorToHSV(0xffffffff, hsv2);
+        Color.colorToHSV(0xffffffff, hsv3);
+        hsv[2] *= 0.45f;
+        hsv2[2] *= 0.45f;
+        hsv3[2] *= 0.45f;
+        int colorDark = Color.HSVToColor(hsv);
+        int colorDark2 = Color.HSVToColor(hsv2);
+        int colorDark3 = Color.HSVToColor(hsv3);
+
+        if (isInAmbientMode){
+
+            paint.setColor(0xff262626);
+            for (int i=0;i<=119;i++){
+                canvas.drawArc(r1, i*3-90+1, 2, false, paint);
+            }
+        }
+        else{
+            if (divisions==0){
+                for (int i=0;i<=119;i++){
+
+                    if (second==i){
+                        paint.setColor(0xffffffff);
+
+                    }
+                    else if (second==(i+1)%120){
+                        paint.setColor(0xffffffff);
+
+                    }
+                    else {
+                        paint.setColor(0xff262626);
+                    }
+
+
+                    canvas.drawArc(r1, i*3-90+1, 2, false, paint);
+                }
+            }
+            else {
+                for (int i=0;i<=119;i++){
+                    float millis = millisecond % (divisions*1000+1);
+                    int md = (int)Math.floor((millis / (divisions*1000l))*(120+divisions));
+
+                    List<Integer> anim = new ArrayList<Integer>();
+                    int ch = 120/divisions;
+                    for (int d = 0 ;d < divisions; d++){
+                        anim.add((second+md+(ch*d))%120);
+                        anim.add((second+md+(ch*d)-1)%120);
+                        anim.add((second+md+(ch*d)+1)%120);
+                    }
+
+                    if (second==i){
+                        paint.setColor(0xffffffff);
+
+                    }
+                    else if (second==(i+1)%120){
+                        paint.setColor(0xffffffff);
+
+                    }
+                    else if (anim.contains(i)){
+                        paint.setColor(colorDark);
+                    }
+                    else {
+                        paint.setColor(0xff262626);
+                    }
+
+
+                    canvas.drawArc(r1, i*3-90+1, 2, false, paint);
+                }
+            }
+
+        }
 
     }
 
-    public static void drawSecondsContinuous(int color, int second,long millisecond, Bitmap halo){
+    public static void drawSecondsContinuous(int color, int second,long millisecond){
         RectF r1 = new RectF();
 
         paint.setStrokeWidth(Sys.size(44, width));
@@ -321,11 +409,9 @@ public class DrawUtils {
             }
         }
 
-        canvas.drawBitmap(halo, 0+offsetX, 0+offsetY, paint);
-
     }
 
-    public static void drawSeconds2(int color, int second,long millisecond, Bitmap halo){
+    public static void drawSeconds2(int color, int second,long millisecond){
         RectF r1 = new RectF();
 
         paint.setStrokeWidth(Sys.size(44, width));
@@ -373,11 +459,10 @@ public class DrawUtils {
             }
         }
 
-        canvas.drawBitmap(halo, 0+offsetX, 0+offsetY, paint);
 
     }
 
-    public static void drawSecondsSpin(int color, float chunk, long millis, Bitmap halo){
+    public static void drawSecondsSpin(int color, float chunk, long millis){
 
             RectF r1 = new RectF();
 
@@ -397,8 +482,12 @@ public class DrawUtils {
             paint.setColor(color);
             canvas.drawArc(r1, startAngle - 3, 3, false, paint);
 
-        canvas.drawBitmap(halo, 0+offsetX, 0+offsetY, paint);
 
+
+    }
+
+    public static void drawHalo(Bitmap halo){
+        canvas.drawBitmap(halo, 0+offsetX, 0+offsetY, paint);
     }
 
     public static void drawSpin(int color, int speed, float widthStroke, float size, boolean clockwise, boolean alpha){

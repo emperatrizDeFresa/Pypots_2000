@@ -43,7 +43,12 @@ public class MessageService extends WearableListenerService {
         }
         else if (messageEvent.getPath().equals(Sys.SETINGS_UP_KEY)) {
             final String message = new String(messageEvent.getData());
-            Sys.save(message.split(",")[0],message.split(",")[1].equals("1"),getApplicationContext());
+            if (message.split(",")[0].equals((Sys.SETTINGS_DIVISIONES))){
+                Sys.save(message.split(",")[0],Integer.parseInt(message.split(",")[1]),getApplicationContext());
+            }
+            else{
+                Sys.save(message.split(",")[0],message.split(",")[1].equals("1"),getApplicationContext());
+            }
         }
         else {
             super.onMessageReceived(messageEvent);

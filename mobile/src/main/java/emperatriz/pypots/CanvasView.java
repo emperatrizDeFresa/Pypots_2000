@@ -121,8 +121,29 @@ public class CanvasView  extends View {
         canvas.drawBitmap(swr,0,0,null);
         DrawUtils.drawTime(sdf.format(now.getTime()),n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,p2);
 
-        //DrawUtils.drawSeconds(0xffffffff, now.get(Calendar.SECOND), now.get(Calendar.MILLISECOND), halo);
-        DrawUtils.drawSecondsMulti(now.get(Calendar.SECOND), now.get(Calendar.MILLISECOND), Sys.getInt(Sys.SETTINGS_DIVISIONES,2,context), halo);
+
+        int divs = Sys.getInt(Sys.SETTINGS_DIVISIONES,2, context);
+        if (divs<=3){
+            DrawUtils.drawSecondsMulti(now.get(Calendar.SECOND), now.get(Calendar.MILLISECOND), divs);
+        }
+        else if(divs<=7){
+            DrawUtils.drawSecondsThin(now.get(Calendar.SECOND)*2+(now.get(Calendar.MILLISECOND)>500?1:0), now.get(Calendar.MILLISECOND), divs-4);
+        }
+        else if (divs==8){
+            DrawUtils.drawSpin(0xadffffff,4, 1, 0.62f, true, true);
+            DrawUtils.drawSpin(0x99ffffff,6, 2, 0.58f, false, true);
+            DrawUtils.drawSpin(0x67ffffff,9, 3, 0.79f, true, true);
+            DrawUtils.drawSecondsSpin(0xffffffff, 45,now.getTimeInMillis());
+        }
+        else if (divs==9){
+            DrawUtils.drawSeconds2(0xffffffff, now.get(Calendar.SECOND), now.get(Calendar.MILLISECOND));
+        }
+
+        if (Sys.getBoolean(Sys.SETTINGS_HALO,true, context)) {
+            DrawUtils.drawHalo(halo);
+        }
+
+
         DrawUtils.drawDayTimes(0xffeeaa22, "07:30","14:00", "21:30","03:00",now, p2);
         DrawUtils.drawLeftComplication(0xffff4466, 56,getResources().getString(R.string.reloj),"56", p2);
 
