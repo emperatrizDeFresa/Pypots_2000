@@ -431,13 +431,13 @@ public class MyWatchFace extends CanvasWatchFaceService implements
                 DrawUtils.drawHalo(halo);
             }
 
-            DrawUtils.drawDayTimes(0xffeeaa22, sdf.format(times.getRise()),sdf.format(times.getNoon()), sdf.format(times.getSet()), sdf.format(times.getNadir()),mCalendar, p2);
-            DrawUtils.drawLeftComplication(0xffff4466, watchBattery,getResources().getString(R.string.reloj),watchBattery+"", p2);
+            DrawUtils.drawDayTimes(0xffeeaa22, sdf.format(times.getRise()),sdf.format(times.getNoon()), sdf.format(times.getSet()), sdf.format(times.getNadir()),mCalendar, p2, !Sys.getBoolean(Sys.SETTINGS_DISCRETO,false, getApplicationContext()));
+            DrawUtils.drawLeftComplication(0xffff4466, watchBattery,getResources().getString(R.string.reloj),watchBattery+"", p2,!Sys.getBoolean(Sys.SETTINGS_DISCRETO,false, getApplicationContext()));
             if (Sys.getBoolean(Sys.SETTINGS_PASOS,false, getApplicationContext())){
-                DrawUtils.drawRightComplication(0xff00bbee, Math.min(Math.round((steps-todaySteps)/100f),100),getResources().getString(R.string.pasos), (steps-todaySteps)+"", p2);
+                DrawUtils.drawRightComplication(0xff00bbee, Math.min(Math.round((steps-todaySteps)/100f),100),getResources().getString(R.string.pasos), (steps-todaySteps)+"", p2,!Sys.getBoolean(Sys.SETTINGS_DISCRETO,false, getApplicationContext()));
             }
             else{
-                DrawUtils.drawRightComplication(0xff00bbee, phoneBattery,getResources().getString(R.string.movil), phoneBattery+"", p2);
+                DrawUtils.drawRightComplication(0xff00bbee, phoneBattery,getResources().getString(R.string.movil), phoneBattery+"", p2, !Sys.getBoolean(Sys.SETTINGS_DISCRETO,false, getApplicationContext()));
             }
             DrawUtils.drawDate(mCalendar,  font2);
             if (notifications>0){

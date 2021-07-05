@@ -8,8 +8,8 @@ android {
         applicationId "emperatriz.pypots"
         minSdkVersion 28
         targetSdkVersion 29
-        versionCode 19
-        versionName "1.4"
+        versionCode 21
+        versionName "1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

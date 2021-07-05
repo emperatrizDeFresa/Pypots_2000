@@ -19,6 +19,7 @@ public class Sys {
     public static final String SETTINGS_DND="dnd";
     public static final String SETTINGS_DIVISIONES="divisiones";
     public static final String SETTINGS_HALO="halo";
+    public static final String SETTINGS_DISCRETO="discreto";
 
     public static int POLLING_INTERVAL=10;
     public static int LOCATION_INTERVAL=60*6;

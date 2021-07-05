@@ -8,6 +8,7 @@
     <string name="cbTorch">Abrir linterna con doble click en el centro</string>
     <string name="cbDND">Sincronizar estado de \"No molestar\" en reloj y móvil</string>
     <string name="cbHalo">Profundidad en el borde</string>
+    <string name="cbDiscreto">Complicaciones discretas</string>
     <string name="textView">Para poder obtener el nivel de batería del móvil y calcular las posiciones del sol es necesario tener la app instalada también en el teléfono</string>
     <string name="partes">Número de divisiones de la animación</string>
 

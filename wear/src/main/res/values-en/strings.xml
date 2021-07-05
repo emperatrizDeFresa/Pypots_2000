@@ -8,6 +8,7 @@
     <string name="cbTorch">Open torch by double tapping on the middle</string>
     <string name="cbDND">Sync DND status in watch and phone</string>
     <string name="cbHalo">Depth at edge</string>
+    <string name="cbDiscreto">Discreet complications</string>
     <string name="textView">In order to be able to show you the phone\'s battery level and to calculate sun positions you have to have the app installed in your phone</string>
     <string name="partes">Number of animation divisions</string>
 

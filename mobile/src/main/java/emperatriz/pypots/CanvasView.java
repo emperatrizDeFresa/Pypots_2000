@@ -144,14 +144,14 @@ public class CanvasView  extends View {
         }
 
 
-        DrawUtils.drawDayTimes(0xffeeaa22, "07:30","14:00", "21:30","03:00",now, p2);
-        DrawUtils.drawLeftComplication(0xffff4466, 56,getResources().getString(R.string.reloj),"56", p2);
+        DrawUtils.drawDayTimes(0xffeeaa22, "07:30","14:00", "21:30","03:00",now, p2, !Sys.getBoolean(Sys.SETTINGS_DISCRETO,false, context));
+        DrawUtils.drawLeftComplication(0xffff4466, 56,getResources().getString(R.string.reloj),"56", p2, !Sys.getBoolean(Sys.SETTINGS_DISCRETO,false, context));
 
         if (Sys.getBoolean(Sys.SETTINGS_PASOS,false, context)){
-            DrawUtils.drawRightComplication(0xff00bbee, 36,getResources().getString(R.string.pasos), "3617", p2);
+            DrawUtils.drawRightComplication(0xff00bbee, 36,getResources().getString(R.string.pasos), "3617", p2, !Sys.getBoolean(Sys.SETTINGS_DISCRETO,false, context));
         }
         else{
-            DrawUtils.drawRightComplication(0xff00bbee, 84,getResources().getString(R.string.movil), "84", p2);
+            DrawUtils.drawRightComplication(0xff00bbee, 84,getResources().getString(R.string.movil), "84", p2, !Sys.getBoolean(Sys.SETTINGS_DISCRETO,false, context));
         }
 
 

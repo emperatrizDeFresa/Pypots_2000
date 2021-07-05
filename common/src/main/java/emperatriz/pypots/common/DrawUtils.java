@@ -605,6 +605,10 @@ public class DrawUtils {
     }
 
     public static void drawDayTimes(int color, String rise, String noon, String set, String nadir, Calendar now, Paint paint2){
+        drawDayTimes(color, rise, noon, set, nadir, now, paint2, true);
+    }
+
+    public static void drawDayTimes(int color, String rise, String noon, String set, String nadir, Calendar now, Paint paint2, boolean continuo){
         RectF r1 = new RectF();
 
         paint.setStrokeWidth(Sys.size(20, width));
@@ -615,7 +619,12 @@ public class DrawUtils {
         else{
             paint.setColor(color);
         }
-        paint.setStrokeCap(Paint.Cap.ROUND);
+        if (continuo){
+            paint.setStrokeCap(Paint.Cap.ROUND);
+        }
+        else{
+            paint.setStrokeCap(Paint.Cap.BUTT);
+        }
         paint.setStyle(Paint.Style.STROKE);
         paint.setFilterBitmap(true);
 
@@ -655,6 +664,7 @@ public class DrawUtils {
             }
         }
 
+        int progDiscrete = Math.round(prog*73);
 
         float x = 2.8f;
         r1.set(p20(x)+offsetX,p20(x)+offsetY,width-p20(x)+offsetX,height-p20(x)+offsetY);
@@ -668,7 +678,17 @@ public class DrawUtils {
         else{
             paint.setColor(colorDark);
         }
-        canvas.drawArc(r1, 200, 140, false, paint);
+
+        if (continuo){
+            canvas.drawArc(r1, 200, 140, false, paint);
+        }
+        else{
+            for (int i=0;i<=72;i++){
+                if (progDiscrete<i){
+                    canvas.drawArc(r1, 198+i*2, 1, false, paint);
+                }
+            }
+        }
         if (isInAmbientMode){
             paint.setColor(0xff666666);
         }
@@ -676,8 +696,16 @@ public class DrawUtils {
             paint.setColor(color);
         }
         int sweepAngle = Math.round(prog*140);
-        canvas.drawArc(r1, 200, sweepAngle, false, paint);
-
+        if (continuo){
+            canvas.drawArc(r1, 200, sweepAngle, false, paint);
+        }
+        else{
+            for (int i=0;i<=72;i++){
+                if (progDiscrete>=i){
+                    canvas.drawArc(r1, 198+i*2, 1, false, paint);
+                }
+            }
+        }
         Path circle  = new Path();
         circle.addCircle(r1.centerX(), r1.centerY(), (width-2*p20(3.8f))/2, Path.Direction.CW);
         if (isInAmbientMode){
@@ -698,6 +726,10 @@ public class DrawUtils {
     }
 
     public static void drawLeftComplication(int color, int level, String title, String value, Paint paint2){
+        drawLeftComplication(color, level, title, value, paint2, true);
+    }
+
+    public static void drawLeftComplication(int color, int level, String title, String value, Paint paint2, boolean continuo){
         RectF r1 = new RectF();
 
         if (isInAmbientMode){
@@ -706,10 +738,18 @@ public class DrawUtils {
         else{
             paint.setColor(color);
         }
-        paint.setStrokeWidth(Sys.size(20, width));
+        if (continuo){
+            paint.setStrokeCap(Paint.Cap.ROUND);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(Sys.size(20, width));
+        }
+        else{
+            paint.setStrokeCap(Paint.Cap.BUTT);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(Sys.size(20, width));
+        }
         paint.setAntiAlias(true);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setStyle(Paint.Style.STROKE);
+
         paint.setFilterBitmap(true);
 
 
@@ -725,7 +765,19 @@ public class DrawUtils {
         else{
             paint.setColor(colorDark);
         }
-        canvas.drawArc(r1, 95, 65, false, paint);
+        int levelDiscrete = 0;
+        if (continuo){
+            canvas.drawArc(r1, 95, 65, false, paint);
+        }
+        else{
+            levelDiscrete = Math.round((level*36)/100);
+            for (int i=0;i<=35;i++){
+                if (levelDiscrete<i){
+                    canvas.drawArc(r1, 92+i*2, 1, false, paint);
+                }
+            }
+        }
+
         if (isInAmbientMode){
             paint.setColor(0xff666666);
         }
@@ -734,7 +786,18 @@ public class DrawUtils {
         }
         float prog = (level*1f)/100;
         int sweepAngle = Math.round(prog*65);
-        canvas.drawArc(r1, 95, sweepAngle, false, paint);
+        if (continuo){
+            canvas.drawArc(r1, 95, sweepAngle, false, paint);
+        }
+        else{
+            //canvas.drawArc(r1, 95, sweepAngle, false, paint);
+            for (int i=0;i<=35;i++){
+                if (levelDiscrete>=i){
+                    canvas.drawArc(r1, 92+i*2, 1, false, paint);
+                }
+            }
+        }
+
 
         Path circle2  = new Path();
         circle2.addCircle(r1.centerX(), r1.centerY(), (width-2*p20(3.8f))/2, Path.Direction.CCW);
@@ -753,6 +816,10 @@ public class DrawUtils {
     }
 
     public static void drawRightComplication(int color, int level, String title, String value,  Paint paint2){
+        drawRightComplication(color, level, title, value,  paint2, true);
+    }
+
+    public static void drawRightComplication(int color, int level, String title, String value,  Paint paint2, boolean continuo){
         RectF r1 = new RectF();
 
         if (isInAmbientMode){
@@ -761,10 +828,18 @@ public class DrawUtils {
         else{
             paint.setColor(color);
         }
-        paint.setStrokeWidth(Sys.size(20, width));
+        if (continuo){
+            paint.setStrokeCap(Paint.Cap.ROUND);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(Sys.size(20, width));
+        }
+        else{
+            paint.setStrokeCap(Paint.Cap.BUTT);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(Sys.size(20, width));
+        }
         paint.setAntiAlias(true);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setStyle(Paint.Style.STROKE);
+
         paint.setFilterBitmap(true);
 
 
@@ -780,7 +855,19 @@ public class DrawUtils {
         else{
             paint.setColor(colorDark);
         }
-        canvas.drawArc(r1, 20, 65, false, paint);
+        //canvas.drawArc(r1, 20, 65, false, paint);
+        int levelDiscrete = 0;
+        if (continuo){
+            canvas.drawArc(r1, 20, 65, false, paint);
+        }
+        else{
+            levelDiscrete = Math.round((level*36)/100);
+            for (int i=0;i<=35;i++){
+                if (levelDiscrete<i){
+                    canvas.drawArc(r1, 87-i*2, 1, false, paint);
+                }
+            }
+        }
         if (isInAmbientMode){
             paint.setColor(0xff666666);
         }
@@ -789,8 +876,18 @@ public class DrawUtils {
         }
         float prog = (level*1f)/100;
         int sweepAngle = Math.round(prog*65);
-        canvas.drawArc(r1, 20+(65-sweepAngle), sweepAngle, false, paint);
-
+        //canvas.drawArc(r1, 20+(65-sweepAngle), sweepAngle, false, paint);
+        if (continuo){
+            canvas.drawArc(r1, 20+(65-sweepAngle), sweepAngle, false, paint);
+        }
+        else{
+            //canvas.drawArc(r1, 95, sweepAngle, false, paint);
+            for (int i=0;i<=35;i++){
+                if (levelDiscrete>=i){
+                    canvas.drawArc(r1, 87-i*2, 1, false, paint);
+                }
+            }
+        }
         Path circle2  = new Path();
         circle2.addCircle(r1.centerX(), r1.centerY(), (width-2*p20(3.8f))/2, Path.Direction.CCW);
         if (isInAmbientMode){
