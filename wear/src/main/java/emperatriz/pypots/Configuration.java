@@ -35,6 +35,7 @@ public class Configuration extends Activity {
         CheckBox cbDND = (CheckBox)findViewById(R.id.cbDND);
         CheckBox cbHalo = (CheckBox)findViewById(R.id.cbHalo);
         CheckBox cbDiscreto = (CheckBox)findViewById(R.id.cbDiscreto);
+        CheckBox cbNumeroSombreados = (CheckBox)findViewById(R.id.cbNumeroSombreados);
 //        Spinner divisiones = (Spinner)findViewById(R.id.divisiones);
 
         cbNumeroNotificaciones.setChecked(Sys.getBoolean(Sys.SETTINGS_NUMERO_NOTIFICACIONES,false, Configuration.this));
@@ -44,6 +45,7 @@ public class Configuration extends Activity {
         cbDND.setChecked(Sys.getBoolean(Sys.SETTINGS_DND,false, Configuration.this));
         cbHalo.setChecked(Sys.getBoolean(Sys.SETTINGS_HALO,true, Configuration.this));
         cbDiscreto.setChecked(Sys.getBoolean(Sys.SETTINGS_DISCRETO,false, Configuration.this));
+        cbNumeroSombreados.setChecked(Sys.getBoolean(Sys.SETTINGS_NUMEROS_SOMBREADOS,false, Configuration.this));
 //        divisiones.setSelection(Sys.getInt(Sys.SETTINGS_DIVISIONES,2, Configuration.this));
 
         cbNumeroNotificaciones.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -92,6 +94,13 @@ public class Configuration extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Sys.save(Sys.SETTINGS_DISCRETO, isChecked, Configuration.this);
+            }
+        });
+
+        cbNumeroSombreados.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Sys.save(Sys.SETTINGS_NUMEROS_SOMBREADOS, isChecked, Configuration.this);
             }
         });
 

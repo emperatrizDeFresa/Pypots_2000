@@ -88,6 +88,7 @@ public class MainActivity extends Activity {
         final CheckBox cbDND = (CheckBox) findViewById(R.id.cbDND);
         final CheckBox cbHalo = (CheckBox) findViewById(R.id.cbHalo);
         final CheckBox cbDiscreto = (CheckBox) findViewById(R.id.cbDiscreto);
+        final CheckBox cbNumeroSombreados = (CheckBox) findViewById(R.id.cbNumeroSombreados);
 //        final Spinner divisiones = (Spinner) findViewById(R.id.divisiones);
 //        final TextView divisionesTxt = (TextView) findViewById(R.id.divisionesTxt);
 
@@ -98,6 +99,7 @@ public class MainActivity extends Activity {
         cbDND.setChecked(Sys.getBoolean(Sys.SETTINGS_DND, false, MainActivity.this));
         cbHalo.setChecked(Sys.getBoolean(Sys.SETTINGS_HALO, true, MainActivity.this));
         cbDiscreto.setChecked(Sys.getBoolean(Sys.SETTINGS_DISCRETO, false, MainActivity.this));
+        cbNumeroSombreados.setChecked(Sys.getBoolean(Sys.SETTINGS_NUMEROS_SOMBREADOS, false, MainActivity.this));
 //        divisiones.setSelection(Sys.getInt(Sys.SETTINGS_DIVISIONES,2, MainActivity.this));
 
         cbNumeroNotificaciones.setEnabled(true);
@@ -107,6 +109,7 @@ public class MainActivity extends Activity {
         cbDND.setEnabled(true);
         cbHalo.setEnabled(true);
         cbDiscreto.setEnabled(true);
+        cbNumeroSombreados.setEnabled(true);
 //        divisiones.setEnabled(true);
 //        //divisionesTxt.setEnabled(true);
 //        divisionesTxt.setTextColor(0xff000000);
@@ -156,6 +159,7 @@ public class MainActivity extends Activity {
         final CheckBox cbDND = (CheckBox) findViewById(R.id.cbDND);
         final CheckBox cbHalo = (CheckBox) findViewById(R.id.cbHalo);
         final CheckBox cbDiscreto = (CheckBox) findViewById(R.id.cbDiscreto);
+        final CheckBox cbNumeroSombreados = (CheckBox) findViewById(R.id.cbNumeroSombreados);
 //        final Spinner divisiones = (Spinner) findViewById(R.id.divisiones);
 //        final TextView divisionesTxt = (TextView) findViewById(R.id.divisionesTxt);
         TextView infoT = (TextView) findViewById(R.id.textView);
@@ -192,6 +196,7 @@ public class MainActivity extends Activity {
         cbDND.setChecked(Sys.getBoolean(Sys.SETTINGS_DND, false, MainActivity.this));
         cbHalo.setChecked(Sys.getBoolean(Sys.SETTINGS_HALO, true, MainActivity.this));
         cbDiscreto.setChecked(Sys.getBoolean(Sys.SETTINGS_DISCRETO, false, MainActivity.this));
+        cbNumeroSombreados.setChecked(Sys.getBoolean(Sys.SETTINGS_NUMEROS_SOMBREADOS, false, MainActivity.this));
 //        divisiones.setSelection(Sys.getInt(Sys.SETTINGS_DIVISIONES,2, MainActivity.this));
 
         cbNumeroNotificaciones.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -247,6 +252,13 @@ public class MainActivity extends Activity {
                 new SendMessage(Sys.SETINGS_UP_KEY, Sys.SETTINGS_DISCRETO+","+(isChecked?"1":"0")).start();
             }
         });
+        cbNumeroSombreados.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Sys.save(Sys.SETTINGS_NUMEROS_SOMBREADOS, isChecked, MainActivity.this);
+                new SendMessage(Sys.SETINGS_UP_KEY, Sys.SETTINGS_NUMEROS_SOMBREADOS+","+(isChecked?"1":"0")).start();
+            }
+        });
 
 //        divisiones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //                                                 @Override
@@ -270,6 +282,7 @@ public class MainActivity extends Activity {
         cbDND.setEnabled(false);
         cbHalo.setEnabled(false);
         cbDiscreto.setEnabled(false);
+        cbNumeroSombreados.setEnabled(false);
 //        divisiones.setEnabled(false);
         //divisionesTxt.setEnabled(false);
 //        divisionesTxt.setTextColor(0x55000000);
@@ -288,6 +301,7 @@ public class MainActivity extends Activity {
                     cbDND.setEnabled(true);
                     cbHalo.setEnabled(true);
                     cbDiscreto.setEnabled(true);
+                    cbNumeroSombreados.setEnabled(true);
 //                    divisiones.setEnabled(true);
                     //divisionesTxt.setEnabled(true);
 //                    divisionesTxt.setTextColor(0xff000000);

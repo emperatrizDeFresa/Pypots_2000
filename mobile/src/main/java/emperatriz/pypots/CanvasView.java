@@ -39,6 +39,16 @@ public class CanvasView  extends View {
     public Bitmap n7;
     public Bitmap n8;
     public Bitmap n9;
+    public Bitmap n0_;
+    public Bitmap n1_;
+    public Bitmap n2_;
+    public Bitmap n3_;
+    public Bitmap n4_;
+    public Bitmap n5_;
+    public Bitmap n6_;
+    public Bitmap n7_;
+    public Bitmap n8_;
+    public Bitmap n9_;
     public Bitmap by;
     public Bitmap halo;
     Paint p2;
@@ -68,6 +78,17 @@ public class CanvasView  extends View {
         n7 = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.siete);
         n8 = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.ocho);
         n9 = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.nueve);
+
+        n0_ = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.n0);
+        n1_ = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.n1);
+        n2_ = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.n2);
+        n3_ = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.n3);
+        n4_ = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.n4);
+        n5_ = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.n5);
+        n6_ = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.n6);
+        n7_ = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.n7);
+        n8_ = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.n8);
+        n9_ = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.n9);
 
         by = BitmapFactory.decodeResource(getResources(), emperatriz.pypots.common.R.drawable.nonot);
 
@@ -120,6 +141,12 @@ public class CanvasView  extends View {
 
         canvas.drawBitmap(swr,0,0,null);
         DrawUtils.drawTime(sdf.format(now.getTime()),n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,p2);
+        if (!Sys.getBoolean(Sys.SETTINGS_NUMEROS_SOMBREADOS,false,context)) {
+            DrawUtils.drawTime(sdf.format(now),n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,p2);
+        }
+        else{
+            DrawUtils.drawTime(sdf.format(now),n0_,n1_,n2_,n3_,n4_,n5_,n6_,n7_,n8_,n9_,p2);
+        }
 
 
         int divs = Sys.getInt(Sys.SETTINGS_DIVISIONES,2, context);

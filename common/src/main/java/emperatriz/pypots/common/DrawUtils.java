@@ -685,6 +685,7 @@ public class DrawUtils {
         else{
             for (int i=0;i<=72;i++){
                 if (progDiscrete<i){
+                    paint.setStrokeWidth(Sys.size(15, width));
                     canvas.drawArc(r1, 198+i*2, 1, false, paint);
                 }
             }
@@ -702,6 +703,7 @@ public class DrawUtils {
         else{
             for (int i=0;i<=72;i++){
                 if (progDiscrete>=i){
+                    paint.setStrokeWidth(Sys.size(20, width));
                     canvas.drawArc(r1, 198+i*2, 1, false, paint);
                 }
             }
@@ -773,6 +775,7 @@ public class DrawUtils {
             levelDiscrete = Math.round((level*36)/100);
             for (int i=0;i<=35;i++){
                 if (levelDiscrete<i){
+                    paint.setStrokeWidth(Sys.size(15, width));
                     canvas.drawArc(r1, 92+i*2, 1, false, paint);
                 }
             }
@@ -793,6 +796,7 @@ public class DrawUtils {
             //canvas.drawArc(r1, 95, sweepAngle, false, paint);
             for (int i=0;i<=35;i++){
                 if (levelDiscrete>=i){
+                    paint.setStrokeWidth(Sys.size(20, width));
                     canvas.drawArc(r1, 92+i*2, 1, false, paint);
                 }
             }
@@ -864,6 +868,7 @@ public class DrawUtils {
             levelDiscrete = Math.round((level*36)/100);
             for (int i=0;i<=35;i++){
                 if (levelDiscrete<i){
+                    paint.setStrokeWidth(Sys.size(15, width));
                     canvas.drawArc(r1, 87-i*2, 1, false, paint);
                 }
             }
@@ -884,6 +889,7 @@ public class DrawUtils {
             //canvas.drawArc(r1, 95, sweepAngle, false, paint);
             for (int i=0;i<=35;i++){
                 if (levelDiscrete>=i){
+                    paint.setStrokeWidth(Sys.size(20, width));
                     canvas.drawArc(r1, 87-i*2, 1, false, paint);
                 }
             }
@@ -911,7 +917,8 @@ public class DrawUtils {
         SimpleDateFormat diaNombre = new SimpleDateFormat("EE");
         SimpleDateFormat mes = new SimpleDateFormat("MMM");
 
-
+        String mes3 = mes.format(now.getTime()).replace(".","");
+        mes3 = mes3.substring(0,3);
 
         float margin=p20(0.25f);
 
@@ -930,12 +937,12 @@ public class DrawUtils {
         p.setStyle(Paint.Style.FILL);
         p.setColor(0xff999999);
         float textWidth2 = p.measureText(diaNombre.format(now.getTime()).replace(".",""));
-        float textWidth3 = p.measureText(mes.format(now.getTime()).replace(".",""));
+        float textWidth3 = p.measureText(mes3);
 
 
 
         canvas.drawText(diaNombre.format(now.getTime()).replace(".",""),(width/2-Math.round(textWidth/2))-(textWidth2+1)-margin+offsetX+1,Sys.size(168, width)+offsetY,p);
-        canvas.drawText(mes.format(now.getTime()).replace(".",""),(width/2+Math.round(textWidth/2))+margin+offsetX-1,Sys.size(168, width)+offsetY,p);
+        canvas.drawText(mes3,(width/2+Math.round(textWidth/2))+margin+offsetX-1,Sys.size(168, width)+offsetY,p);
 
         if (width==454){
             Paint p4 = new Paint();
