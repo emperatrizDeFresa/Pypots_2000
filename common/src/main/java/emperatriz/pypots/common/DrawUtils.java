@@ -146,7 +146,7 @@ public class DrawUtils {
         Color.colorToHSV(0xffffffff, hsv);
         Color.colorToHSV(0xffffffff, hsv2);
         Color.colorToHSV(0xffffffff, hsv3);
-        hsv[2] *= 0.45f;
+        //hsv[2] *= 0.45f;
         hsv2[2] *= 0.45f;
         hsv3[2] *= 0.45f;
         int colorDark = Color.HSVToColor(hsv);
@@ -185,12 +185,15 @@ public class DrawUtils {
                     float millis = millisecond % (divisions*1000+1);
                     int md = (int)Math.floor((millis / (divisions*1000l))*(60+divisions));
 
+
                     List<Integer> anim = new ArrayList<Integer>();
                     int ch = 60/divisions;
                     for (int d = 0 ;d < divisions; d++){
                         anim.add((second+md+(ch*d))%60);
                         anim.add((second+md+(ch*d)-1)%60);
                         anim.add((second+md+(ch*d)+1)%60);
+
+
                     }
 
                     if (second==i){
@@ -202,6 +205,7 @@ public class DrawUtils {
 
                     }
                     else if (anim.contains(i)){
+                        colorDark = awayFromSec(second, i, divisions, 0xff262626);
                         paint.setColor(colorDark);
                     }
                     else {
@@ -214,6 +218,14 @@ public class DrawUtils {
             }
 
         }
+    }
+
+    private static int awayFromSec(int sec, int pos, int divisions, int colorBase){
+        int diff1 = Math.abs((pos-sec-60)%(60));
+        int diff2 = Math.abs((pos+60-sec)%(60));
+        int diff = Math.min(diff1, diff2);
+        float perc =  Math.max(1-(diff/(60f)),0.4f);
+        return Color.argb(255,Math.round(255*perc), Math.round(255*perc), Math.round(255*perc));
     }
 
     public static void drawSecondsThin(int second, long millisecond, int divisions){

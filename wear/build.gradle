@@ -7,9 +7,9 @@ android {
     defaultConfig {
         applicationId "emperatriz.pypots"
         minSdkVersion 28
-        targetSdkVersion 29
-        versionCode 24
-        versionName "1.6"
+        targetSdkVersion 30
+        versionCode 26
+        versionName "1.7"
 
     }
 

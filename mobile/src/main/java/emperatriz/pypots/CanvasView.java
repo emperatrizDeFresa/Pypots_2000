@@ -142,10 +142,10 @@ public class CanvasView  extends View {
         canvas.drawBitmap(swr,0,0,null);
         DrawUtils.drawTime(sdf.format(now.getTime()),n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,p2);
         if (!Sys.getBoolean(Sys.SETTINGS_NUMEROS_SOMBREADOS,false,context)) {
-            DrawUtils.drawTime(sdf.format(now),n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,p2);
+            DrawUtils.drawTime(sdf.format(now.getTime()),n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,p2);
         }
         else{
-            DrawUtils.drawTime(sdf.format(now),n0_,n1_,n2_,n3_,n4_,n5_,n6_,n7_,n8_,n9_,p2);
+            DrawUtils.drawTime(sdf.format(now.getTime()),n0_,n1_,n2_,n3_,n4_,n5_,n6_,n7_,n8_,n9_,p2);
         }
 
 
